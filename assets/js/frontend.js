@@ -1819,16 +1819,102 @@
     }
   }
 
+  function initProfileTabs(root) {
+    if (!root || root.dataset.openttTabsBound === "1") {
+      return;
+    }
+    root.dataset.openttTabsBound = "1";
+
+    var buttons = Array.prototype.slice.call(
+      root.querySelectorAll(".opentt-profile-tab-btn[data-tab]")
+    );
+    var panes = Array.prototype.slice.call(
+      root.querySelectorAll(".opentt-profile-tab-pane[data-tab-pane]")
+    );
+    if (!buttons.length || !panes.length) {
+      return;
+    }
+
+    function hasTab(tab) {
+      return buttons.some(function (btn) {
+        return String(btn.getAttribute("data-tab") || "") === String(tab || "");
+      });
+    }
+
+    function syncUrl(tab) {
+      if (!window.history || !window.history.replaceState || !window.location) {
+        return;
+      }
+      try {
+        var url = new URL(window.location.href);
+        if (String(tab || "") === "profile") {
+          url.searchParams.delete("opentt_profile_tab");
+        } else {
+          url.searchParams.set("opentt_profile_tab", String(tab || ""));
+        }
+        window.history.replaceState({}, "", url.toString());
+      } catch (e) {}
+    }
+
+    function activate(tab, syncLocation) {
+      var target = hasTab(tab) ? String(tab || "") : "profile";
+      buttons.forEach(function (btn) {
+        var on = String(btn.getAttribute("data-tab") || "") === target;
+        btn.classList.toggle("is-active", on);
+        btn.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      panes.forEach(function (pane) {
+        var on = String(pane.getAttribute("data-tab-pane") || "") === target;
+        pane.classList.toggle("is-active", on);
+        pane.setAttribute("aria-hidden", on ? "false" : "true");
+      });
+      if (syncLocation) {
+        syncUrl(target);
+      }
+    }
+
+    buttons.forEach(function (btn) {
+      btn.setAttribute("role", "tab");
+      btn.addEventListener("click", function () {
+        activate(String(btn.getAttribute("data-tab") || "profile"), true);
+      });
+    });
+    panes.forEach(function (pane) {
+      pane.setAttribute("role", "tabpanel");
+    });
+
+    var requested = null;
+    try {
+      requested = new URL(window.location.href).searchParams.get("opentt_profile_tab");
+    } catch (e) {}
+    var initial =
+      requested && hasTab(requested)
+        ? requested
+        : (buttons.find(function (btn) {
+            return btn.classList.contains("is-active");
+          }) || buttons[0]).getAttribute("data-tab");
+    activate(initial || "profile", false);
+  }
+
+  function initAllProfileTabs() {
+    var roots = document.querySelectorAll('[data-opentt-profile-tabs="1"]');
+    for (var i = 0; i < roots.length; i++) {
+      initProfileTabs(roots[i]);
+    }
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       initAllMatchesLists();
       initAllSearches();
       initAllStandingsShare();
+      initAllProfileTabs();
     });
   } else {
     initAllMatchesLists();
     initAllSearches();
     initAllStandingsShare();
+    initAllProfileTabs();
   }
 })();
     function escapeRegex(value) {
