@@ -27,6 +27,8 @@ All notable changes to the LibreTT plugin are documented in this file.
 - Applied a full OpenTT admin visual redesign with a scoped dark-minimal responsive theme (surfaces, typography, tables, forms, buttons, notices, tabs, modals, and games-entry blocks) while preserving existing functionality.
 - Reworked the OpenTT admin redesign into a full scoped light-minimal responsive system with modern spacing, hierarchy, cards, controls, and table/form polish while keeping plugin functionality unchanged.
 - Fixed `/profil` tab navigation (`Profil`, `Urednički portal`, `Administracija lige`, `Menadžer tima`) by adding dedicated frontend tab initialization with reliable pane switching and URL query sync (`opentt_profile_tab`) without page reload.
+- Hardened `single-utakmica` template rendering by wrapping key shortcode sections in guarded execution so one failing block no longer triggers a full page critical error.
+- Fixed a production fatal in virtual single-match routing by replacing stale `OpenTT_Unified_Core::db_get_match_by_keys()` / `db_get_match_by_legacy_id()` calls with `OpenTT_Unified_Shortcode_Match_Query_Service` equivalents in `capture_virtual_match_context()`.
 - Improved `opentt_matches_list` with contextual league-season navigation, no-refresh round switching, mobile-friendly layout, highlight support including `highlight="auto"`, report/video indicators, and updater attribution.
 - Improved match cards for played and upcoming matches so upcoming fixtures show kickoff time instead of placeholder `0:0` scores.
 - Added clickable club navigation to mini standings rows and match team cards.

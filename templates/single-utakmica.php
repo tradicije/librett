@@ -29,6 +29,17 @@ $home_logo = $home_id > 0 ? get_the_post_thumbnail($home_id, 'thumbnail', ['clas
 $away_logo = $away_id > 0 ? get_the_post_thumbnail($away_id, 'thumbnail', ['class' => 'opentt-match-logo']) : '';
 
 get_header();
+
+$safe_shortcode = static function ($shortcode) {
+    try {
+        return (string) do_shortcode((string) $shortcode);
+    } catch (\Throwable $e) {
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('[OpenTT single-utakmica] shortcode render failed for ' . (string) $shortcode . ': ' . $e->getMessage()); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+        }
+        return '<div class="opentt-shortcode-error" style="padding:12px;border:1px solid #fecaca;background:#fff1f2;border-radius:10px;color:#9f1239;">Greška pri prikazu sekcije. Osveži stranicu ili proveri plugin log.</div>';
+    }
+};
 ?>
 <main id="primary" class="opentt-match-page" style="max-width:1100px;margin:0 auto;padding:20px 16px;">
     <section class="opentt-match-hero" style="margin-bottom:18px;">
@@ -55,28 +66,28 @@ get_header();
     </section>
 
     <section class="opentt-match-table" style="margin-bottom:20px;">
-        <?php echo do_shortcode('[opentt_standings_table]'); ?>
+        <?php echo $safe_shortcode('[opentt_standings_table]'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
     </section>
 
     <section class="opentt-match-games" style="margin-bottom:20px;">
-        <?php echo do_shortcode('[opentt_match_games]'); ?>
+        <?php echo $safe_shortcode('[opentt_match_games]'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
     </section>
 
     <section class="opentt-match-extras" style="display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:20px;">
         <div class="mvp-utakmice-section">
-            <?php echo do_shortcode('[opentt_mvp]'); ?>
+            <?php echo $safe_shortcode('[opentt_mvp]'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
 
         <div class="h2h-utakmice-section">
-            <?php echo do_shortcode('[opentt_h2h]'); ?>
+            <?php echo $safe_shortcode('[opentt_h2h]'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
 
         <div class="snimak-utakmice-section-wrap">
-            <?php echo do_shortcode('[opentt_match_video]'); ?>
+            <?php echo $safe_shortcode('[opentt_match_video]'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
 
         <div class="izvestaj-utakmice-section">
-            <?php echo do_shortcode('[opentt_match_report]'); ?>
+            <?php echo $safe_shortcode('[opentt_match_report]'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </div>
     </section>
 </main>

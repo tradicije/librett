@@ -340,7 +340,7 @@ final class OpenTT_Unified_Core
             $legacy_query_id = intval($_GET['post']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         }
         if ($legacy_query_id > 0) {
-            $row = self::db_get_match_by_legacy_id($legacy_query_id);
+            $row = OpenTT_Unified_Shortcode_Match_Query_Service::db_get_match_by_legacy_id($legacy_query_id);
             if ($row) {
                 self::$virtual_match_row = $row;
                 global $wp_query;
@@ -372,7 +372,7 @@ final class OpenTT_Unified_Core
                 $kolo = sanitize_title($segments[1]);
                 $slug = sanitize_title($segments[2]);
                 if (strpos($kolo, 'kolo') !== false) {
-                    $row = self::db_get_match_by_keys($liga, '', $kolo, $slug);
+                    $row = OpenTT_Unified_Shortcode_Match_Query_Service::db_get_match_by_keys($liga, '', $kolo, $slug);
                 }
             } elseif ($count === 4) {
                 $liga = sanitize_title($segments[0]);
@@ -380,9 +380,9 @@ final class OpenTT_Unified_Core
                 $kolo = sanitize_title($segments[2]);
                 $slug = sanitize_title($segments[3]);
                 if (strpos($kolo, 'kolo') !== false) {
-                    $row = self::db_get_match_by_keys($liga, $sezona, $kolo, $slug);
+                    $row = OpenTT_Unified_Shortcode_Match_Query_Service::db_get_match_by_keys($liga, $sezona, $kolo, $slug);
                     if (!$row) {
-                        $row = self::db_get_match_by_keys($liga, '', $kolo, $slug);
+                        $row = OpenTT_Unified_Shortcode_Match_Query_Service::db_get_match_by_keys($liga, '', $kolo, $slug);
                     }
                 }
             } elseif ($count === 5) {
@@ -391,7 +391,7 @@ final class OpenTT_Unified_Core
                     $liga = sanitize_title($segments[1]);
                     $kolo = sanitize_title($segments[2]);
                     $slug = sanitize_title($segments[4]);
-                    $row = self::db_get_match_by_keys($liga, '', $kolo, $slug);
+                    $row = OpenTT_Unified_Shortcode_Match_Query_Service::db_get_match_by_keys($liga, '', $kolo, $slug);
                 }
             } elseif ($count === 6) {
                 // Back-compat: /liga/{liga}/{sezona}/{kolo}/utakmica/{slug}
@@ -400,9 +400,9 @@ final class OpenTT_Unified_Core
                     $sezona = sanitize_title($segments[2]);
                     $kolo = sanitize_title($segments[3]);
                     $slug = sanitize_title($segments[5]);
-                    $row = self::db_get_match_by_keys($liga, $sezona, $kolo, $slug);
+                    $row = OpenTT_Unified_Shortcode_Match_Query_Service::db_get_match_by_keys($liga, $sezona, $kolo, $slug);
                     if (!$row) {
-                        $row = self::db_get_match_by_keys($liga, '', $kolo, $slug);
+                        $row = OpenTT_Unified_Shortcode_Match_Query_Service::db_get_match_by_keys($liga, '', $kolo, $slug);
                     }
                 }
             }
