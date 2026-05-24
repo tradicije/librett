@@ -75,6 +75,22 @@ final class MatchesListShortcode
             }
         }
         if (empty($rows)) {
+            $club_id = intval($query_args['club_id'] ?? 0);
+            $season_slug = sanitize_title((string) ($query_args['sezona_slug'] ?? ''));
+            $league_slug = sanitize_title((string) ($query_args['liga_slug'] ?? ''));
+            if ($club_id > 0 && $season_slug !== '') {
+                // Season labels can differ in storage format (e.g. 2025-26 vs 2025-2026).
+                // If SQL season filter misses rows, fetch club rows and normalize in PHP.
+                $fallback_args = $query_args;
+                $fallback_args['sezona_slug'] = '';
+                $candidate_rows = $call('db_get_matches', $fallback_args);
+                $candidate_rows = is_array($candidate_rows) ? $candidate_rows : [];
+                if (!empty($candidate_rows)) {
+                    $rows = self::filter_rows_by_normalized_scope($candidate_rows, $season_slug, $league_slug);
+                }
+            }
+        }
+        if (empty($rows)) {
             return (string) $call('shortcode_title_html', 'Utakmice') . '<p>Nema utakmica za prikaz.</p>';
         }
         if (!empty($auto_scope['enforce_latest']) && !empty($auto_scope['liga_slug']) && !empty($auto_scope['sezona_slug'])) {
@@ -760,6 +776,39 @@ final class MatchesListShortcode
             $variants[$m[1] . '-' . substr($m[2], -2)] = true;
         }
         return $variants;
+    }
+
+    private static function filter_rows_by_normalized_scope(array $rows, $season_slug, $league_slug = '')
+    {
+        $season_slug = sanitize_title((string) $season_slug);
+        $league_slug = sanitize_title((string) $league_slug);
+        if ($season_slug === '') {
+            return $rows;
+        }
+
+        $filtered = [];
+        foreach ($rows as $row) {
+            if (!is_object($row)) {
+                continue;
+            }
+
+            $row_liga = sanitize_title((string) ($row->liga_slug ?? ''));
+            $row_sezona = sanitize_title((string) ($row->sezona_slug ?? ''));
+            $parsed = OpenTT_Unified_Readonly_Helpers::parse_legacy_liga_sezona($row_liga, $row_sezona);
+            $row_liga = sanitize_title((string) ($parsed['league_slug'] ?? $row_liga));
+            $row_sezona = sanitize_title((string) ($parsed['season_slug'] ?? $row_sezona));
+
+            if ($league_slug !== '' && $row_liga !== $league_slug) {
+                continue;
+            }
+            if (!self::seasons_equivalent($row_sezona, $season_slug)) {
+                continue;
+            }
+
+            $filtered[] = $row;
+        }
+
+        return $filtered;
     }
 
     private static function normalize_bool_attr($raw, $default = true)
