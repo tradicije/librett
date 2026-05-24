@@ -47,6 +47,30 @@ final class MatchesListShortcode
                 $query_args['sezona_slug'] = $season_from_get;
             }
         }
+        if (empty($query_args['sezona_slug']) && intval($query_args['club_id'] ?? 0) > 0) {
+            // Single-club default: when no season is chosen in URL/attrs, use club's latest season.
+            $seed_args = $query_args;
+            $seed_args['limit'] = 1;
+            $seed_args['liga_slug'] = '';
+            $seed_args['sezona_slug'] = '';
+            $seed_rows = $call('db_get_matches', $seed_args);
+            if (is_array($seed_rows) && !empty($seed_rows) && is_object($seed_rows[0])) {
+                $seed = $seed_rows[0];
+                $seed_liga = sanitize_title((string) ($seed->liga_slug ?? ''));
+                $seed_sezona = sanitize_title((string) ($seed->sezona_slug ?? ''));
+                $parsed = $call('parse_legacy_liga_sezona', $seed_liga, $seed_sezona);
+                if (is_array($parsed)) {
+                    $seed_liga = sanitize_title((string) ($parsed['league_slug'] ?? $seed_liga));
+                    $seed_sezona = sanitize_title((string) ($parsed['season_slug'] ?? $seed_sezona));
+                }
+                if ($seed_sezona !== '') {
+                    $query_args['sezona_slug'] = $seed_sezona;
+                }
+                if (!empty($query_args['liga_slug']) === false && $seed_liga !== '') {
+                    $query_args['liga_slug'] = $seed_liga;
+                }
+            }
+        }
         $query_args['limit'] = -1;
         $auto_scope = self::expand_auto_highlight_scope($atts, $query_args, $call);
 
