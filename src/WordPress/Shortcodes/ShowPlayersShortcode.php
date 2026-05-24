@@ -48,6 +48,14 @@ final class ShowPlayersShortcode
         if ($selected_season === '' && isset($_GET['sezona'])) {
             $selected_season = sanitize_title((string) wp_unslash($_GET['sezona']));
         }
+        if ($selected_season === '') {
+            $season_options = (array) $call('db_get_club_season_options', $klub_id);
+            $season_options = array_values(array_filter(array_map('sanitize_title', $season_options)));
+            if (!empty($season_options)) {
+                // Single-club default: align with club-card context by using latest available season.
+                $selected_season = (string) $season_options[0];
+            }
+        }
 
         $player_ids = (array) $call('db_get_club_player_ids_for_season', $klub_id, $selected_season);
         $player_ids = array_values(array_unique(array_filter(array_map('intval', $player_ids))));

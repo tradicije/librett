@@ -279,6 +279,9 @@ trait OpenTT_Unified_Shortcodes_Trait
             'db_get_club_player_ids_for_season' => static function ($club_id, $season_slug = '') {
                 return self::db_get_club_player_ids_for_season($club_id, $season_slug);
             },
+            'db_get_club_season_options' => static function ($club_id) {
+                return self::db_get_club_season_options($club_id);
+            },
         ]);
     }
 
