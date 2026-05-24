@@ -647,6 +647,11 @@ final class MatchesListShortcode
         $liga_slug = sanitize_title((string) ($query_args['liga_slug'] ?? ''));
         $sezona_slug = sanitize_title((string) ($query_args['sezona_slug'] ?? ''));
         $explicit_season = trim((string) ($atts['season'] ?? '')) !== '' || trim((string) ($atts['sezona'] ?? '')) !== '';
+        if (!$explicit_season && $sezona_slug !== '') {
+            // Season selected via single-club dropdown arrives through query context (opentt_sezona).
+            // Treat it as explicit to avoid forcing "latest competition" scope over user's selection.
+            $explicit_season = true;
+        }
 
         if ($club_id > 0 && $sezona_slug !== '' && $liga_slug === '') {
             $resolved_liga = (string) $call('db_get_latest_liga_for_club_and_season', $club_id, $sezona_slug);
