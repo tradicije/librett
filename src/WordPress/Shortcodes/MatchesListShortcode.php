@@ -625,6 +625,28 @@ final class MatchesListShortcode
             $resolved_liga = sanitize_title($resolved_liga);
             if ($resolved_liga !== '') {
                 $liga_slug = $resolved_liga;
+            } else {
+                // Legacy season formats can miss direct resolution (e.g. 2025-26 vs 2025-2026).
+                // Seed from the latest club row within the active season so we keep one competition scope.
+                $seed_args = $query_args;
+                $seed_args['limit'] = 1;
+                $seed_rows = $call('db_get_matches', $seed_args);
+                if (is_array($seed_rows) && !empty($seed_rows) && is_object($seed_rows[0])) {
+                    $seed = $seed_rows[0];
+                    $seed_liga = sanitize_title((string) ($seed->liga_slug ?? ''));
+                    $seed_sezona = sanitize_title((string) ($seed->sezona_slug ?? ''));
+                    $parsed = $call('parse_legacy_liga_sezona', $seed_liga, $seed_sezona);
+                    if (is_array($parsed)) {
+                        $seed_liga = sanitize_title((string) ($parsed['league_slug'] ?? $seed_liga));
+                        $seed_sezona = sanitize_title((string) ($parsed['season_slug'] ?? $seed_sezona));
+                    }
+                    if ($seed_liga !== '') {
+                        $liga_slug = $seed_liga;
+                    }
+                    if ($seed_sezona !== '') {
+                        $sezona_slug = $seed_sezona;
+                    }
+                }
             }
         }
 
@@ -658,7 +680,10 @@ final class MatchesListShortcode
         }
         $scope['enforce_latest'] = !$explicit_season && $scope['liga_slug'] !== '' && $scope['sezona_slug'] !== '';
 
-        $query_args['club_id'] = 0;
+        // Keep club filter until we have a concrete league scope; otherwise we'd leak to all leagues in season.
+        if ($liga_slug !== '') {
+            $query_args['club_id'] = 0;
+        }
         if ($liga_slug !== '') {
             $query_args['liga_slug'] = $liga_slug;
         }
