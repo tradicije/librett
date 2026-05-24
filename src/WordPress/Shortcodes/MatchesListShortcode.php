@@ -76,17 +76,29 @@ final class MatchesListShortcode
         }
         if (empty($rows)) {
             $club_id = intval($query_args['club_id'] ?? 0);
+            if ($club_id <= 0) {
+                $auto_ids = self::resolve_highlight_ids((string) ($atts['highlight'] ?? ''));
+                if (!empty($auto_ids)) {
+                    $club_id = intval($auto_ids[0]);
+                }
+            }
             $season_slug = sanitize_title((string) ($query_args['sezona_slug'] ?? ''));
             $league_slug = sanitize_title((string) ($query_args['liga_slug'] ?? ''));
             if ($club_id > 0 && $season_slug !== '') {
                 // Season labels can differ in storage format (e.g. 2025-26 vs 2025-2026).
                 // If SQL season filter misses rows, fetch club rows and normalize in PHP.
                 $fallback_args = $query_args;
+                $fallback_args['club_id'] = $club_id;
+                $fallback_args['liga_slug'] = '';
                 $fallback_args['sezona_slug'] = '';
                 $candidate_rows = $call('db_get_matches', $fallback_args);
                 $candidate_rows = is_array($candidate_rows) ? $candidate_rows : [];
                 if (!empty($candidate_rows)) {
                     $rows = self::filter_rows_by_normalized_scope($candidate_rows, $season_slug, $league_slug);
+                    if (empty($rows)) {
+                        // Last fallback: do not pin league if contextual league slug was stale.
+                        $rows = self::filter_rows_by_normalized_scope($candidate_rows, $season_slug, '');
+                    }
                 }
             }
         }
