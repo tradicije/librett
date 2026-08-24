@@ -66,11 +66,6 @@ These hooks are integration points for admin forms and flows:
 - `opentt_unified_reset_competition_matches`
 - `opentt_unified_competition_diagnostics`
 - `opentt_unified_repair_competition_played`
-- `opentt_unified_migrate_batch`
-- `opentt_unified_reset_migration`
-- `opentt_unified_validate_import`
-- `opentt_unified_repair_relations`
-- `opentt_unified_cleanup_placeholders`
 
 ## 3) Admin Page Slugs
 
@@ -110,10 +105,7 @@ Primary option namespace:
 Known stable keys in code:
 
 - `opentt_unified_schema_version`
-- `opentt_unified_migration_state`
-- `opentt_unified_validation_report`
 - `opentt_unified_league_season_validation_report`
-- `opentt_unified_legacy_id_map`
 - `opentt_unified_player_citizenship_backfill_done`
 - `opentt_unified_custom_shortcode_css`
 - `opentt_unified_custom_shortcode_css_map`

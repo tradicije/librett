@@ -36,7 +36,7 @@ Core architectural decision:
 - Keep existing frontend behavior and shortcode compatibility.
 - Move heavy match/game/set data from CPT/ACF into dedicated DB tables.
 - Provide a clean admin workflow for non-technical users.
-- Support both fresh installs and legacy migration scenarios.
+- Support fresh installs and upgrades of the current DB schema.
 
 ## Main features
 

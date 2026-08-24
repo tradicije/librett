@@ -36,7 +36,7 @@ Ključna arhitekturna odluka:
 - Zadržati postojeće frontend ponašanje i shortcode kompatibilnost.
 - Premestiti teške match/game/set podatke iz CPT/ACF u namenske DB tabele.
 - Omogućiti čist admin workflow za netehničke korisnike.
-- Podržati i fresh instalacije i legacy migracije.
+- Podržati fresh instalacije i nadogradnje aktuelne DB šeme.
 
 ## Glavne mogućnosti
 

@@ -1234,12 +1234,6 @@ trait OpenTT_Unified_Shortcodes_Trait
         ]);
     }
 
-    private static function get_validation_report()
-    {
-        $report = get_option(self::OPTION_VALIDATION_REPORT, []);
-        return is_array($report) ? $report : [];
-    }
-
     private static function build_match_query_args($atts)
     {
         return OpenTT_Unified_Shortcode_Match_Query_Service::build_match_query_args($atts, [

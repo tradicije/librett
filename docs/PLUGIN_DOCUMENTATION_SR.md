@@ -11,7 +11,7 @@ Plugin objedinjuje:
 - evidenciju klubova i igrača,
 - prikaz tabela, statistika i rang-lista,
 - import/export podataka,
-- migraciju sa starijih struktura.
+- nadogradnje aktuelne DB šeme i kompatibilnost starih ruta.
 
 Ključna arhitekturna odluka: meč podaci (utakmice, partije i setovi) čuvaju se u namenskim DB tabelama radi performansi i pouzdanosti.
 
@@ -246,16 +246,18 @@ Preporučeni tok:
 - Uvoz raditi prvo na staging okruženju.
 - Proveriti sample prikaz na frontendu nakon importa.
 
-## 15. Migracije i legacy kompatibilnost
+## 15. Nadogradnje šeme i kompatibilnost
 
-LibreTT uključuje migracione i kompatibilne mehanizme za prelazak sa starijih struktura.
-Može uključivati:
+LibreTT nadograđuje aktuelnu DB šemu i zadržava odabrane mehanizme kompatibilnosti.
+To može uključivati:
 - mapiranja liga/sezona,
 - mapiranje internih ID/ključeva,
 - SQL migracione skripte,
 - fallback logiku za stare rute/sadržaj.
 
-Preporuka: migracije sprovoditi planski, uz test i backup.
+Raniji admin tok za migraciju `utakmica` i `partija` CPT zapisa u DB tabele više nije uključen.
+
+Preporuka: nadogradnje šeme sprovoditi planski, uz test i backup.
 
 ## 16. Teme, template-i i override
 

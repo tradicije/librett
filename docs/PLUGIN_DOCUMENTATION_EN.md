@@ -11,7 +11,7 @@ It combines:
 - club and player records,
 - standings, statistics, and rankings,
 - data import/export,
-- legacy migration support.
+- current DB schema upgrades and legacy route compatibility.
 
 Key architectural decision: match-level data (matches, games, sets) is stored in dedicated DB tables for performance and reliability.
 
@@ -246,16 +246,18 @@ Recommended flow:
 - Test imports on staging first.
 - Validate key frontend pages after import.
 
-## 15. Migrations and Legacy Compatibility
+## 15. Schema Upgrades and Compatibility
 
-LibreTT provides migration and compatibility mechanisms for legacy structures.
+LibreTT upgrades the current database schema and retains selected compatibility mechanisms.
 This may include:
 - league/season mapping,
 - internal ID/key remapping,
 - SQL migration scripts,
 - fallback behavior for legacy routes/content.
 
-Recommendation: run migrations with a plan, backup, and test pass.
+The former admin workflow for migrating `utakmica` and `partija` CPT records into DB tables is no longer included.
+
+Recommendation: run schema upgrades with a plan, backup, and test pass.
 
 ## 16. Themes, Templates, Overrides
 
