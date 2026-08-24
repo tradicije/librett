@@ -15,6 +15,14 @@ This plan is intentionally conservative:
 4. Every PR must pass the same smoke checklist.
 5. Prefer extraction + delegation over rewrites.
 
+## Current Progress
+
+- Phase 0 tooling is active: frozen-contract checks, PHP lint, core/search smoke checks, and a Query Monitor measurement template.
+- Phase 1 match, standings, and statistics query services are primary implementations; frontend search has its first repository boundary.
+- Phase 2 shortcode wiring is split into domain compatibility traits while preserving the original core callback surface.
+- Phase 3 has started: frontend search has a PSR-4 controller and text service, and its remaining orchestration is isolated from the main core file.
+- `OpenTT_Unified_Core` is approximately 6,950 lines; the old 1,400+ line shortcode composition point is now a small trait aggregator.
+
 ## Phase 0 - Freeze and Baseline
 
 Goal: create a safe runway for iterative refactor.

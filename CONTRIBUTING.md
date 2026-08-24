@@ -75,6 +75,8 @@ Before opening a PR:
 - Keep changes focused and minimal.
 - Avoid mixing unrelated refactors in a single PR.
 - Write clear commit messages (imperative style preferred).
+- Update `changelog.md` and every README, user guide, architecture note, or test document affected by the change.
+- Include a proposed commit message in the handoff for every completed change.
 
 If your change affects architecture or structure, please explain your reasoning.
 
@@ -103,6 +105,17 @@ During this window:
 - no new features
 - no public API/shortcode contract changes without explicit migration notes
 - one subsystem per PR
+
+Required local checks:
+
+- `bash tools/refactor_audit.sh`
+- `php tools/core_load_smoke.php`
+- `php tools/search_text_smoke.php`
+- `php tools/search_repository_smoke.php`
+
+Record Query Monitor comparisons for performance work in
+`docs/refactor/PERFORMANCE_BASELINE.md`. Do not claim an optimization without a
+repeatable query-count or timing comparison.
 
 ---
 

@@ -147,6 +147,20 @@ LibreTT supports:
 - New language files are auto-detected and listed in Settings.
 - Use `languages/admin-ui-template.example.txt` as a template.
 
+## Architecture and refactor status
+
+LibreTT is in a stability-first refactor window. Public shortcodes, WordPress
+hooks, routes, content keys, and database contracts remain frozen while the
+legacy core is gradually reduced to a compatibility facade.
+
+The shortcode compatibility layer is split by domain, and frontend search now
+has separate controller, repository, and text-matching services. Refactor work
+is verified with the frozen-contract check, PHP lint, standalone smoke checks,
+the manual WordPress smoke checklist, and Query Monitor baselines.
+
+See `docs/refactor/PHASED_REFACTOR_PLAN.md`, `docs/refactor/API_CONTRACT.md`, and
+`docs/refactor/PERFORMANCE_BASELINE.md` before making structural changes.
+
 ## License
 
 **GNU Affero General Public License v3 (AGPL-3.0)**
@@ -176,10 +190,8 @@ Contributions are welcome:
 
 ## Project status
 
-- Stable release: **1.0.0**.
-- Pre-release: **1.1.0-beta.1**.
-- Pre-release: **1.1.0**.
-- Pre-release: **1.1.0-beta.3**.
+- Current plugin version: **1.1.0**.
+- Active work: stability-first refactor and measured optimization; no new feature work during this window.
 
 ## Notes
 
@@ -191,3 +203,7 @@ For complete end-user and operations documentation, see:
 
 - `docs/PLUGIN_DOCUMENTATION_EN.md`
 - `docs/PLUGIN_DOCUMENTATION_SR.md`
+- `docs/refactor/PHASED_REFACTOR_PLAN.md`
+- `docs/refactor/API_CONTRACT.md`
+- `docs/refactor/SMOKE_CHECKLIST.md`
+- `docs/refactor/PERFORMANCE_BASELINE.md`

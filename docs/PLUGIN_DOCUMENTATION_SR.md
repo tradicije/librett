@@ -303,6 +303,11 @@ Za velike istorije (više sezona):
 - DB model mečeva je već dobra osnova,
 - dodatno razmotriti sezonske agregate gde je potrebno.
 
+Performansne izmene moraju imati ponovljivo pre/posle merenje. Koristiti Query
+Monitor i obrazac `docs/refactor/PERFORMANCE_BASELINE.md`; porediti medijanu tri
+zahteva posle jednog warm-up zahteva. Frontend search repository koristi
+request-scope cache za ponovljeno učitavanje istog CPT skupa.
+
 ## 21. Bezbednost
 
 LibreTT koristi WordPress sigurnosne obrasce (nonce, sanitizacija ulaza, capability provere) u administrativnim i AJAX tokovima.
@@ -334,11 +339,21 @@ Dobre prakse:
 
 ## 24. Verzije i održavanje
 
+Plugin je u stability-first periodu refaktora. `OpenTT_Unified_Core` ostaje
+compatibility facade, shortcode adapteri su podeljeni po domenima, a search ima
+izdvojene controller, repository i text-matching servise. Javni ugovori iz
+`docs/refactor/API_CONTRACT.md` ne smeju se tiho menjati.
+
 Pre svakog većeg update-a:
 - backup,
 - test na staging-u,
 - smoke test ključnih shortcode stranica,
 - provera import/export toka.
+
+Za promene koda pokrenuti `bash tools/refactor_audit.sh`; search promene dodatno
+proveriti skriptama `tools/search_text_smoke.php` i
+`tools/search_repository_smoke.php`. Svaka promena mora ažurirati relevantnu
+dokumentaciju i changelog.
 
 ## 25. Bundled addon: Tournaments
 

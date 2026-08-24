@@ -4,6 +4,14 @@ All notable changes to the LibreTT plugin are documented in this file.
 
 ## Unreleased
 
+### Refactor and Maintenance
+
+- Split the 1,400+ line shortcode compatibility trait into domain traits while preserving all 100 method names and registered shortcode callbacks.
+- Extracted frontend search HTTP orchestration, text matching, and its first repository boundary into PSR-4 services; the remaining compatibility implementation now has a dedicated subsystem trait.
+- Reduced `OpenTT_Unified_Core` from roughly 9,650 to 6,950 lines without changing public shortcode, hook, content-type, taxonomy, route, option, meta, or table contracts.
+- Added request-scoped caching for repeated frontend-search CPT reads; the regression harness verifies that two equivalent reads execute one SQL query.
+- Added frozen-contract, core-composition, search-text, repository-query, full PHP lint, architecture-audit, and performance-baseline tooling.
+
 ### Highlights
 
 - Added standalone-ready bundled `LibreTT Tournaments` addon foundation with tournament CPT, contextual tournament shortcodes, single tournament template support, admin tournament/category/entry management, and first-pass single-elimination bracket generation.

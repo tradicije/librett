@@ -163,3 +163,6 @@ Legacy tables still supported via runtime resolver:
 - migration script (or runtime compatibility bridge)
 - changelog note
 - rollback path
+
+The locally checkable subset of this contract is enforced by
+`tools/refactor_contract_check.sh` and runs as part of `tools/refactor_audit.sh`.

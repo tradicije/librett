@@ -147,6 +147,20 @@ LibreTT podržava:
 - Novi jezički fajlovi se automatski detektuju i prikazuju u podešavanjima.
 - Za novi prevod koristi `languages/admin-ui-template.example.txt` kao šablon.
 
+## Arhitektura i status refaktora
+
+LibreTT je u stability-first periodu refaktora. Javni shortcode-ovi, WordPress
+hook-ovi, rute, ključevi sadržaja i DB ugovori ostaju zamrznuti dok se legacy
+core postepeno svodi na compatibility facade.
+
+Shortcode compatibility sloj je podeljen po domenima, a frontend pretraga sada
+ima odvojene controller, repository i text-matching servise. Refaktor se proverava
+frozen-contract proverom, PHP lintom, samostalnim smoke proverama, ručnim WordPress
+smoke checklistom i Query Monitor baseline merenjima.
+
+Pre strukturnih promena pogledati `docs/refactor/PHASED_REFACTOR_PLAN.md`,
+`docs/refactor/API_CONTRACT.md` i `docs/refactor/PERFORMANCE_BASELINE.md`.
+
 ## Licenca
 
 **GNU Affero General Public License v3 (AGPL-3.0)**
@@ -176,10 +190,8 @@ Doprinosi su dobrodošli:
 
 ## Status projekta
 
-- Stabilna verzija: **1.0.0**.
-- Beta verzija: **1.1.0-beta.1**.
-- Beta verzija: **1.1.0**.
-- Beta verzija: **1.1.0-beta.3**.
+- Trenutna verzija plugina: **1.1.0**.
+- Aktivni rad: stability-first refaktor i merena optimizacija; bez novih funkcionalnosti u ovom periodu.
 
 ## Napomena
 
@@ -191,3 +203,7 @@ Za detaljnu korisničku i operativnu dokumentaciju pogledaj:
 
 - `docs/PLUGIN_DOCUMENTATION_SR.md`
 - `docs/PLUGIN_DOCUMENTATION_EN.md`
+- `docs/refactor/PHASED_REFACTOR_PLAN.md`
+- `docs/refactor/API_CONTRACT.md`
+- `docs/refactor/SMOKE_CHECKLIST.md`
+- `docs/refactor/PERFORMANCE_BASELINE.md`

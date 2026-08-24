@@ -303,6 +303,11 @@ For large history (many seasons):
 - dedicated match DB model is already a strong baseline,
 - consider seasonal aggregate layers where needed.
 
+Performance changes require repeatable before/after evidence. Use Query Monitor
+and `docs/refactor/PERFORMANCE_BASELINE.md`; compare the median of three requests
+after one warm-up request. The frontend search repository uses a request-scoped
+cache for repeated reads of the same CPT set.
+
 ## 21. Security
 
 LibreTT follows common WordPress security patterns (nonce checks, input sanitization, capability checks) in admin and AJAX flows.
@@ -334,11 +339,20 @@ Best practices:
 
 ## 24. Versioning and Maintenance
 
+The plugin is in a stability-first refactor window. `OpenTT_Unified_Core` remains
+a compatibility facade, shortcode adapters are split by domain, and search has
+dedicated controller, repository, and text-matching services. Public contracts
+listed in `docs/refactor/API_CONTRACT.md` must not change silently.
+
 Before major updates:
 - backup,
 - staging validation,
 - smoke test key shortcode pages,
 - verify import/export path.
+
+For code changes, run `bash tools/refactor_audit.sh`; search changes must also run
+`tools/search_text_smoke.php` and `tools/search_repository_smoke.php`. Every
+change must update the relevant documentation and changelog.
 
 ## 25. Bundled Addon: Tournaments
 

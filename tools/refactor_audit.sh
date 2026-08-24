@@ -43,6 +43,12 @@ fi
 if [ -f "includes/modules/trait-opentt-unified-shortcodes.php" ]; then
   wc -l "includes/modules/trait-opentt-unified-shortcodes.php"
 fi
+find includes/modules -maxdepth 1 -name 'trait-opentt-unified-shortcodes-*.php' -type f -print0 \
+  | sort -z \
+  | xargs -0 wc -l
+if [ -f "includes/modules/trait-opentt-unified-search.php" ]; then
+  wc -l "includes/modules/trait-opentt-unified-search.php"
+fi
 if [ -f "src/WordPress/UserPortalManager.php" ]; then
   wc -l "src/WordPress/UserPortalManager.php"
 fi
@@ -50,6 +56,24 @@ echo
 
 echo "-- Namespace sanity sample --"
 sed -n '1,20p' src/WordPress/Shortcodes/MatchesListShortcode.php | sed -n '1,6p'
+echo
+
+echo "-- PHP syntax --"
+if command -v php >/dev/null 2>&1; then
+  while IFS= read -r -d '' file; do
+    php -l "$file" >/dev/null
+  done < <(find . -name '*.php' -type f -print0)
+  echo "All PHP files passed php -l."
+  php tools/core_load_smoke.php
+  php tools/search_repository_smoke.php
+  php tools/search_text_smoke.php
+else
+  echo "SKIP: php CLI is not available."
+fi
+echo
+
+echo "-- Frozen public contract --"
+bash tools/refactor_contract_check.sh
 echo
 
 echo "Audit complete."
