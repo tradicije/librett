@@ -310,6 +310,7 @@ and `docs/refactor/PERFORMANCE_BASELINE.md`; compare the median of three request
 after one warm-up request. The frontend search repository uses a request-scoped
 cache for repeated reads of the same CPT set, while query-intent recognition is
 isolated in `FrontendSearchIntentParser` behind the existing compatibility callback.
+Local dates and Serbian month/year ranges are normalized by `FrontendSearchDateParser`.
 
 ## 21. Security
 
@@ -344,7 +345,7 @@ Best practices:
 
 The plugin is in a stability-first refactor window. `OpenTT_Unified_Core` remains
 a compatibility facade, shortcode adapters are split by domain, and search has
-dedicated controller, intent-parser, repository, and text-matching services. Public contracts
+dedicated controller, intent-parser, date-parser, repository, and text-matching services. Public contracts
 listed in `docs/refactor/API_CONTRACT.md` must not change silently.
 
 Before major updates:
@@ -354,7 +355,8 @@ Before major updates:
 - verify import/export path.
 
 For code changes, run `bash tools/refactor_audit.sh`; search changes must also run
-`tools/search_text_smoke.php`, `tools/search_intent_smoke.php`, and
+`tools/search_text_smoke.php`, `tools/search_intent_smoke.php`,
+`tools/search_date_smoke.php`, and
 `tools/search_repository_smoke.php`. Every
 change must update the relevant documentation and changelog.
 

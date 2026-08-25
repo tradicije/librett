@@ -155,7 +155,7 @@ hooks, routes, content keys, and database contracts remain frozen while the
 legacy core is gradually reduced to a compatibility facade.
 
 The shortcode compatibility layer is split by domain, and frontend search now
-has separate controller, intent-parser, repository, and text-matching services. Refactor work
+has separate controller, intent-parser, date-parser, repository, and text-matching services. Refactor work
 is verified with the frozen-contract check, PHP lint, standalone smoke checks,
 the manual WordPress smoke checklist, and Query Monitor baselines.
 

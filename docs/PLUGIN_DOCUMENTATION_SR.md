@@ -310,6 +310,7 @@ Monitor i obrazac `docs/refactor/PERFORMANCE_BASELINE.md`; porediti medijanu tri
 zahteva posle jednog warm-up zahteva. Frontend search repository koristi
 request-scope cache za ponovljeno učitavanje istog CPT skupa, dok je prepoznavanje
 namere upita izdvojeno u `FrontendSearchIntentParser` iza postojećeg compatibility callbacka.
+Lokalne datume i opsege srpski mesec/godina normalizuje `FrontendSearchDateParser`.
 
 ## 21. Bezbednost
 
@@ -344,7 +345,7 @@ Dobre prakse:
 
 Plugin je u stability-first periodu refaktora. `OpenTT_Unified_Core` ostaje
 compatibility facade, shortcode adapteri su podeljeni po domenima, a search ima
-izdvojene controller, intent-parser, repository i text-matching servise. Javni ugovori iz
+izdvojene controller, intent-parser, date-parser, repository i text-matching servise. Javni ugovori iz
 `docs/refactor/API_CONTRACT.md` ne smeju se tiho menjati.
 
 Pre svakog većeg update-a:
@@ -354,7 +355,8 @@ Pre svakog većeg update-a:
 - provera import/export toka.
 
 Za promene koda pokrenuti `bash tools/refactor_audit.sh`; search promene dodatno
-proveriti skriptama `tools/search_text_smoke.php`, `tools/search_intent_smoke.php` i
+proveriti skriptama `tools/search_text_smoke.php`, `tools/search_intent_smoke.php`,
+`tools/search_date_smoke.php` i
 `tools/search_repository_smoke.php`. Svaka promena mora ažurirati relevantnu
 dokumentaciju i changelog.
 

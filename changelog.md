@@ -10,6 +10,7 @@ All notable changes to the LibreTT plugin are documented in this file.
 - Extracted frontend search HTTP orchestration, text matching, and its first repository boundary into PSR-4 services; the remaining compatibility implementation now has a dedicated subsystem trait.
 - Extracted frontend query-intent recognition into `FrontendSearchIntentParser`, preserving the existing AJAX response shapes through a compatibility dispatcher and adding focused parser smoke coverage.
 - Fixed the `predstojece <club>` search intent so its regular expression captures and resolves the requested club name before loading upcoming matches.
+- Extracted local-date and Serbian month/year range normalization into `FrontendSearchDateParser`, retaining thin compatibility delegates and adding leap-year and invalid-input smoke coverage.
 - Reduced `OpenTT_Unified_Core` from roughly 9,650 to 6,950 lines without changing public shortcode, hook, content-type, taxonomy, route, option, meta, or table contracts.
 - Added request-scoped caching for repeated frontend-search CPT reads; the regression harness verifies that two equivalent reads execute one SQL query.
 - Added frozen-contract, core-composition, search-text, repository-query, full PHP lint, architecture-audit, and performance-baseline tooling.

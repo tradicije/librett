@@ -864,37 +864,12 @@ trait OpenTT_Unified_Search_Trait
 
     private static function search_parse_local_date($value)
     {
-        $value = trim((string) $value);
-        if (!preg_match('/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/', $value, $m)) {
-            return '';
-        }
-        $d = intval($m[1]);
-        $mo = intval($m[2]);
-        $y = intval($m[3]);
-        if (!checkdate($mo, $d, $y)) {
-            return '';
-        }
-        return sprintf('%04d-%02d-%02d', $y, $mo, $d);
+        return \OpenTT\Unified\WordPress\FrontendSearchDateParser::localDate($value);
     }
 
     private static function search_parse_month_year_range($month_word, $year)
     {
-        $month_word = self::search_fold_text(function_exists('mb_strtolower') ? mb_strtolower((string) $month_word, 'UTF-8') : strtolower((string) $month_word));
-        $map = [
-            'januar' => 1, 'februar' => 2, 'mart' => 3, 'april' => 4, 'maj' => 5, 'jun' => 6, 'jul' => 7,
-            'avgust' => 8, 'septembar' => 9, 'oktobar' => 10, 'novembar' => 11, 'decembar' => 12,
-        ];
-        if (!isset($map[$month_word])) {
-            return [];
-        }
-        $month = intval($map[$month_word]);
-        $year = intval($year);
-        if ($year < 2000 || $year > 2100) {
-            return [];
-        }
-        $from = sprintf('%04d-%02d-01', $year, $month);
-        $to = date('Y-m-t', strtotime($from));
-        return ['from' => $from, 'to' => $to];
+        return \OpenTT\Unified\WordPress\FrontendSearchDateParser::monthYearRange($month_word, $year);
     }
 
     private static function search_fetch_matches_by_club_and_date_range($club_id, $from, $to, $limit)
