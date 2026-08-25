@@ -39,7 +39,7 @@ Goal: confirm behavior parity while internals change.
 
 1. Run `bash tools/refactor_audit.sh` (full PHP lint and frozen contract).
 2. Run `php tools/core_load_smoke.php`.
-3. Run `php tools/search_text_smoke.php` and `php tools/search_repository_smoke.php` when search code changes.
+3. Run `php tools/search_text_smoke.php`, `php tools/search_intent_smoke.php`, and `php tools/search_repository_smoke.php` when search code changes.
 4. No fatal errors in debug log during the above flow.
 5. No public shortcode tags changed.
 6. For optimizations, complete the before/after fields in `PERFORMANCE_BASELINE.md`.

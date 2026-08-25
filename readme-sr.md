@@ -154,7 +154,7 @@ hook-ovi, rute, ključevi sadržaja i DB ugovori ostaju zamrznuti dok se legacy
 core postepeno svodi na compatibility facade.
 
 Shortcode compatibility sloj je podeljen po domenima, a frontend pretraga sada
-ima odvojene controller, repository i text-matching servise. Refaktor se proverava
+ima odvojene controller, intent-parser, repository i text-matching servise. Refaktor se proverava
 frozen-contract proverom, PHP lintom, samostalnim smoke proverama, ručnim WordPress
 smoke checklistom i Query Monitor baseline merenjima.
 

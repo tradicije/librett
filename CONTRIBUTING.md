@@ -111,6 +111,7 @@ Required local checks:
 - `bash tools/refactor_audit.sh`
 - `php tools/core_load_smoke.php`
 - `php tools/search_text_smoke.php`
+- `php tools/search_intent_smoke.php`
 - `php tools/search_repository_smoke.php`
 
 Record Query Monitor comparisons for performance work in

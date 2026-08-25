@@ -67,6 +67,7 @@ if command -v php >/dev/null 2>&1; then
   php tools/core_load_smoke.php
   php tools/search_repository_smoke.php
   php tools/search_text_smoke.php
+  php tools/search_intent_smoke.php
 else
   echo "SKIP: php CLI is not available."
 fi
