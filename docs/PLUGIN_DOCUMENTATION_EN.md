@@ -220,6 +220,8 @@ Typical features:
 - contextual suggestions,
 - trend/recommendation behavior.
 
+Supported smart queries include `predstojece <club name>` for the selected club's upcoming matches.
+
 ## 14. Import/Export
 
 ### 14.1 Export

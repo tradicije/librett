@@ -72,6 +72,7 @@ Primeri:
 - `[opentt_mvp]`
 - `[opentt_match_report]`
 - `[opentt_match_video]`
+- `[opentt_search]` (uključujući pametne upite kao `predstojece <naziv kluba>`)
 - `[opentt_clubs]`
 - `[opentt_players]`
 - `[opentt_club_info]`

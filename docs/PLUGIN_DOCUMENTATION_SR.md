@@ -220,6 +220,8 @@ Tipični elementi:
 - kontekstualni predlozi,
 - trend/preporuke.
 
+Podržani pametni upiti uključuju `predstojece <naziv kluba>` za predstojeće utakmice izabranog kluba.
+
 ## 14. Import/Export
 
 ### 14.1 Export

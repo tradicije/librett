@@ -72,6 +72,7 @@ Examples:
 - `[opentt_mvp]`
 - `[opentt_match_report]`
 - `[opentt_match_video]`
+- `[opentt_search]` (including smart queries such as `predstojece <club name>`)
 - `[opentt_clubs]`
 - `[opentt_players]`
 - `[opentt_club_info]`

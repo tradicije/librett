@@ -21,6 +21,8 @@ $dispatch = static function ($method, array $args) use (&$calls) {
             return ['liga_slug' => 'prva-liga', 'sezona_slug' => '2026-27'];
         case 'search_fetch_recent_club_matches':
             return [['id' => 21, 'title' => 'Poslednja utakmica']];
+        case 'search_fetch_upcoming_club_matches':
+            return [['id' => 22, 'title' => 'Sledeća utakmica']];
         case 'search_compute_form_wl':
             return ['wins' => 1, 'losses' => 0];
         case 'search_compute_club_position':
@@ -47,12 +49,18 @@ if (($form['type'] ?? '') !== 'club_recent' || intval($form['club']['id'] ?? 0) 
     exit(1);
 }
 
+$upcoming = FrontendSearchIntentParser::parse('predstojece bubusinac', 6, [], $dispatch);
+if (($upcoming['type'] ?? '') !== 'generic_list' || intval($upcoming['items'][0]['id'] ?? 0) !== 22) {
+    fwrite(STDERR, 'Upcoming-club intent failed: ' . json_encode($upcoming, JSON_UNESCAPED_UNICODE) . "\n");
+    exit(1);
+}
+
 if (FrontendSearchIntentParser::parse('', 6, [], $dispatch) !== []) {
     fwrite(STDERR, "Empty-query intent failed.\n");
     exit(1);
 }
 
-foreach (['search_fold_text', 'search_top_players_items', 'search_resolve_club_id_by_phrase', 'search_fetch_recent_club_matches'] as $requiredCall) {
+foreach (['search_fold_text', 'search_top_players_items', 'search_resolve_club_id_by_phrase', 'search_fetch_recent_club_matches', 'search_fetch_upcoming_club_matches'] as $requiredCall) {
     if (!in_array($requiredCall, $calls, true)) {
         fwrite(STDERR, "Missing dispatcher call: {$requiredCall}.\n");
         exit(1);

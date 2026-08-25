@@ -245,7 +245,7 @@ final class FrontendSearchIntentParser
         if (preg_match('/^live\s+utakmice$/u', $folded)) {
             return ['type' => 'generic_list', 'label' => 'LIVE utakmice', 'items' => self::invoke($call, 'search_live_matches_items', 20)];
         }
-        if (preg_match('/^predstojece\s+(.+)$/u', $folded)) {
+        if (preg_match('/^predstojece\s+(.+)$/u', $folded, $m)) {
             $club_id = self::invoke($call, 'search_resolve_club_id_by_phrase', trim((string) ($m[1] ?? '')), $context);
             if ($club_id > 0) {
                 $scope = self::invoke($call, 'search_resolve_intent_scope_for_club', $club_id, $context);
